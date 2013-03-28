@@ -1,11 +1,17 @@
 Greenblog::Application.routes.draw do
+  get "sitemap/index"
+
   root:to =>"articles#index"
   
   devise_for :users
+  
+  resources :tags
 
   resources :articles do
    resources :comments
-  end 
+  end
+   
+  match "/sitemap" => "sitemap#index", :as => :sitemap, :defaults => {:format => :xml}
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

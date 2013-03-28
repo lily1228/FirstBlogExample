@@ -1,7 +1,8 @@
 class User < ActiveRecord::Base
   has_and_belongs_to_many :roles
-  
+  has_many :articles
   before_create :setup_role
+ 
   private
   def setup_role
     if self.role_ids.empty?
@@ -9,8 +10,9 @@ class User < ActiveRecord::Base
     end
   end
   
+  public
   def role?(role)
-     return !!self.roles.find_by_name(role.to_s)
+    return !!self.roles.find_by_name(role.to_s)
    end
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,

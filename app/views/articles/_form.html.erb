@@ -26,4 +26,8 @@
     <%= f.label :tag_names, "Tags" %>  
     <%= f.text_field :tag_names %>  
 </div>
+<div class="field">
+  <%= check_box("article", "published" ) %>
+  <%= "Publish article" %>
+</div>
 <% end %>

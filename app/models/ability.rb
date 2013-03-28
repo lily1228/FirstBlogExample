@@ -15,6 +15,5 @@ class Ability < ActiveRecord::Base
            can :create, [Comment]
            can [:edit, :update], Comment
         end
-      end
     end
 end

@@ -3,7 +3,7 @@ class ArticlesController < ApplicationController
   # GET /articles
   # GET /articles.xml
   def index
-    @articles = Article.all
+    @articles = Article.published.page(params[:page]).per(5).ordered
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,6 +15,7 @@ class ArticlesController < ApplicationController
   # GET /articles/1.xml
   def show
     @article = Article.find(params[:id])
+    @comment = Comment.new(:article=>@article)
 
     respond_to do |format|
       format.html # show.html.erb
@@ -24,6 +25,8 @@ class ArticlesController < ApplicationController
 
   # GET /articles/new
   # GET /articles/new.xml
+
+  
   def new
     @article = Article.new
 
@@ -32,16 +35,18 @@ class ArticlesController < ApplicationController
       format.xml { render :xml => @article }
     end
   end
-
   # GET /articles/1/edit
   def edit
-    @article = Article.find(params[:id])
+    authorize! :edit, @article
+    @article =~ Article.find(params[:id])
   end
 
   # POST /articles
   # POST /articles.xml
   def create
+    authorize! :create, @article
     @article = Article.new(params[:article])
+    @article.user_id = current_user.id
 
     respond_to do |format|
       if @article.save
@@ -57,6 +62,7 @@ class ArticlesController < ApplicationController
   # PUT /articles/1
   # PUT /articles/1.xml
   def update
+    authorize! :update, @article
     @article = Article.find(params[:id])
 
     respond_to do |format|
@@ -73,6 +79,7 @@ class ArticlesController < ApplicationController
   # DELETE /articles/1
   # DELETE /articles/1.xml
   def destroy
+    authorize! :destroy, @article       
     @article = Article.find(params[:id])
     @article.destroy
 

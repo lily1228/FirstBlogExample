@@ -1,6 +1,11 @@
 class Article < ActiveRecord::Base
+  scope :published, lambda { {:conditions => ['published = ?', true]} }
+  scope :ordered, lambda {{:order => "Created_at DESC" }}
   validates_presence_of :title, :body
   validates_uniqueness_of :title
+  validates_numericality_of :user_id
+  
+  belongs_to :user
   
   has_many :comments, :dependent => :destroy
   has_many :taggings, :dependent => :destroy

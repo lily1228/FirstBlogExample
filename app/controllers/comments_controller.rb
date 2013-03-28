@@ -47,8 +47,7 @@ class CommentsController < ApplicationController
         format.html { redirect_to(@article, :notice => 'Comment was successfully created.') }
         format.xml { render :xml => @article, :status => :created, :location => @article }
       else
-        format.html { redirect_to(@article, :notice =>
-        'Comment could not be saved. Please fill in all fields')}
+        format.html { render :template => "articles/show" }
         format.xml { render :xml => @comment.errors, :status => :unprocessable_entity }
       end
     end
